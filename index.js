@@ -12,7 +12,7 @@ console.log("Initiating cron job...")
 if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
     logger.error("No username and / or password set")
 } else {
-    cron.schedule('*/5 * * * *', () => {
+    //cron.schedule('*/5 * * * *', () => {
 
         login().then(getNodes).then((result) => {
 
@@ -24,26 +24,27 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
 
                 result.nodes.forEach(item => {
                     if (item.name.indexOf('http://') == -1){                    
-                        console.log(item.name, item.id);
+                        //console.log(item.name, item.id);
                         //console.log(item.attributes);
                         // Hub
                         if (item.name === 'Hub'){
-
-                            
+                            mqttOut(client, item, ["presence", "devicesState", "serverConnectionState"]);
                         } else 
                         // Receiver
                         if (item.name === 'Receiver'){
-
-                            
+                            mqttOut(client, item, ["presence"]);
                         } else 
                         // Water Heating Thermostat
                         if (item.name === 'Thermostat 1'){
-
-                            
+                            mqttOut(client, item, ["stateHotWaterRelay"]);                            
                         } else 
                         // Central Heating Thermostat
                         if (item.name === 'Thermostat 2'){
                             mqttOut(client, item, ["temperature", "targetHeatTemperature", "stateHeatingRelay"]);
+                        } else 
+                        // Thermostat Device properties
+                        if (item.name === 'Thermostat 3'){
+                            mqttOut(client, item, ["presence", "batteryLevel"]);                            
                         } else 
                         // Lights
                         if (item.attributes.brightness) {
@@ -60,5 +61,5 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
             console.log(err);
         });            
 
-    });
+    //});
 }

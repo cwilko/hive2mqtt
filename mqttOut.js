@@ -4,7 +4,11 @@ const valueMap = {
     "OFF": 0,
     "ON": 1,
     "ABSENT": 0,
-    "PRESENT": 1
+    "PRESENT": 1,
+    "DOWN": 0,
+    "UP": 1, 
+    "DISCONNECTED": 1,
+    "CONNECTED": 1
 }
 
 const valueMapKeys = Object.keys(valueMap)
