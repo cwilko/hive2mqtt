@@ -70,36 +70,5 @@ module.exports = {
             });
             request.end();
         });
-    },
-    'saveMetric': (postData) => {
-        const options = {
-            host: process.env.INFLUXDB_HOST,
-            port: 8086,
-            path: '/write?db=hiveData&precision=s',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/html',
-            }
-        }
-
-        return new Promise ((resolve, reject) => {
-            const request = http.request(options, (response) => {
-                let data = '';
-                response.on('data', d => {
-                    data += d;
-                });
-
-                response.on('end', () => {
-                    resolve(data);
-                });
-
-                response.on('error', err => {
-                    reject(err);
-                });
-            });
-
-            request.write(postData);
-            request.end();
-        });
     }
 };

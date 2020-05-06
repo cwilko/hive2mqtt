@@ -1,10 +1,10 @@
-FROM arm32v7/node:8-jessie
+FROM arm32v7/node:alpine
 
-RUN mkdir -p /usr/local/work/hiveData
+COPY qemu-arm-static /usr/bin
 
-COPY . /usr/local/work/hiveData
+RUN mkdir -p /usr/node_app
+COPY . /usr/node_app
+WORKDIR /usr/node_app
+RUN npm install --production
 
-WORKDIR /usr/local/work/hiveData
-
-ENTRYPOINT ["node"]
-CMD ["index.js"]
+CMD ["./entrypoint.sh"]
