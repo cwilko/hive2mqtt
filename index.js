@@ -10,13 +10,21 @@ var mqtt = require('mqtt')
 console.log("Initiating cron job...")
 
 if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
-    logger.error("No username and / or password set")
-} else {
-    cron.schedule('*/5 * * * *', () => {
+    console.log("No username and / or password set")
+} else if (!process.env.MQTT_HOST) {
+    console.log("No MQTT host")
+} else if (!process.env.INTERVAL) {
+    console.log("No cron job interval")
+}else {
+
+    const MQTT_HOST = process.env.MQTT_HOST
+    const INTERVAL = process.env.INTERVAL
+
+    cron.schedule('*/' + INTERVAL + ' * * * *', () => {
 
         login().then(getNodes).then((result) => {
 
-            var client  = mqtt.connect('mqtt://192.168.1.202')
+            var client  = mqtt.connect('mqtt://' + MQTT_HOST)
 
             client.on('connect', function () {
 
