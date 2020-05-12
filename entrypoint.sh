@@ -4,7 +4,7 @@ run(){
     while true; do 
         echo "Starting NodeJS process" 
         node index.js
-        sleep 60
+        sleep 300
     done
 }
 

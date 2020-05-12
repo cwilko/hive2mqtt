@@ -12,7 +12,7 @@ console.log("Initiating cron job...")
 if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
     logger.error("No username and / or password set")
 } else {
-    //cron.schedule('*/5 * * * *', () => {
+    cron.schedule('*/5 * * * *', () => {
 
         login().then(getNodes).then((result) => {
 
@@ -31,7 +31,7 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
                             mqttOut(client, item, ["presence", "devicesState", "serverConnectionState"]);
                         } else 
                         // Receiver
-                        if (item.name === 'Receiver'){
+                        if (item.name === 'Receiver 1'){
                             mqttOut(client, item, ["presence"]);
                         } else 
                         // Water Heating Thermostat
@@ -48,7 +48,7 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
                         } else 
                         // Lights
                         if (item.attributes.brightness) {
-                            mqttOut(client, item, ["presence", "state", "brightness"]);                        
+                            mqttOut(client, item, ["presence", "state", "brightness"], true);                        
                         }
                     }
                 });
@@ -61,5 +61,5 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
             console.log(err);
         });            
 
-    //});
+    });
 }

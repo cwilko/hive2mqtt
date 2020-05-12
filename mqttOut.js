@@ -13,12 +13,17 @@ const valueMap = {
 
 const valueMapKeys = Object.keys(valueMap)
 
-module.exports = (client, item, attributeList) => {   
+module.exports = (client, item, attributeList, light=false) => {   
 
     const normalisedName = item.name.replace(/\s/g, '\\ ');
 
     const fieldString = getFields(item, attributeList);
-    const tagString = "device=" + normalisedName
+    var tagString = "device=" + normalisedName
+
+    if (light == true) 
+        tagString += ",type=light"
+    else
+        tagString += ",type=heat"
 
     const payload = "hive," + tagString + " " + fieldString
 
@@ -40,8 +45,6 @@ function getFields(item, attributeList) {
             fieldString += attribute + "=" + value + ",";
         }
     });
-
-    item.name.replace(/ABSENT/g, '0').replace(/ABSENT/g, '0').replace(/OFF/g, '0').replace(/ON/g, '0')
 
     return fieldString.slice(0, -1);
 }
