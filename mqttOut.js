@@ -41,8 +41,6 @@ function getFields(item, attributeList) {
         }
     });
 
-    item.name.replace(/ABSENT/g, '0').replace(/ABSENT/g, '0').replace(/OFF/g, '0').replace(/ON/g, '0')
-
     return fieldString.slice(0, -1);
 }
 
