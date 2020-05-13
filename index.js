@@ -55,7 +55,7 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
                             mqttOut(client, item, ["presence", "batteryLevel"]);                            
                         } else 
                         // Lights
-                        if (item.attributes.brightness) {
+                        if (item.attributes.nodeType.reportedValue.includes("light")) {
                             mqttOut(client, item, ["presence", "state", "brightness"], true);                        
                         }
                     }
