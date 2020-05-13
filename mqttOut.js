@@ -7,8 +7,9 @@ const valueMap = {
     "PRESENT": 1,
     "DOWN": 0,
     "UP": 1, 
-    "DISCONNECTED": 1,
-    "CONNECTED": 1
+    "DISCONNECTED": 0,
+    "CONNECTED": 1,
+    "UNKNOWN": 0
 }
 
 const valueMapKeys = Object.keys(valueMap)
