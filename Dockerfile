@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED=1
 RUN mkdir -p /usr/app
 COPY . /usr/app
 WORKDIR /usr/app
-RUN apk add --update --no-cache --virtual .build-deps g++ gcc libxml2-dev libxslt-dev python-dev && \
+RUN apk add --no-cache --virtual .build-deps gcc libc-dev libxslt-dev && \
     apk add --no-cache libxslt && \
     pip install --no-cache-dir lxml>=3.5.0 && \
     apk del .build-deps
