@@ -1,10 +1,12 @@
-FROM arm32v7/node:alpine
+FROM arm32v7/python:alpine
 
 COPY qemu-arm-static /usr/bin
 
-RUN mkdir -p /usr/node_app
-COPY . /usr/node_app
-WORKDIR /usr/node_app
-RUN npm install --production
+ENV PYTHONUNBUFFERED=1
+
+RUN mkdir -p /usr/app
+COPY . /usr/app
+WORKDIR /usr/app
+RUN pip install -r requirements.txt
 
 CMD ["./entrypoint.sh"]

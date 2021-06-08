@@ -1,10 +1,12 @@
 #! /bin/ash
 
 run(){
-    while true; do 
-        echo "Starting NodeJS process" 
-        node index.js
+    echo "Starting python process"
+    while true; do          
+        python main.py
+        echo "Error during python process."
         sleep 300
+        echo "Restarting..."
     done
 }
 
