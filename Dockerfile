@@ -1,4 +1,4 @@
-FROM arm32v7/python:alpine
+FROM arm32v7/python:3.6-alpine
 
 COPY qemu-arm-static /usr/bin
 
