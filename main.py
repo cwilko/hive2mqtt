@@ -26,7 +26,7 @@ def mqttSvc(client, device, attributes, light=False):
 
     try:
 
-        print("telegraf/hive/" + normalisedName, payload)
+        #print("telegraf/hive/" + normalisedName, payload)
         client.publish("telegraf/hive/" + normalisedName, payload)
 
     except Exception as e:
