@@ -78,7 +78,7 @@ def getHiveMetrics(sc):
 
         for deviceType in session.deviceList:
             for device in session.deviceList[deviceType]:
-                print(device["hiveName"], device["hiveID"])
+                #print(device["hiveName"], device["hiveID"])
 
                 # Hub
                 if (deviceType == 'binary_sensor') and (device['hiveName'] == 'Hub'):
