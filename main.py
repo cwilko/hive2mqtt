@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 from pyhiveapi import Hive
+import traceback
 import os
 import time
 import sched
@@ -12,7 +13,7 @@ HIVE_PASSWORD = os.environ.get('HIVE_PASSWORD')
 
 
 def mqttSvc(client, device, attributes, light=False):
-    normalisedName = device['hiveName'].replace(" ", "_")
+    normalisedName = device.replace(" ", "_")
 
     fieldString = getFields(device, attributes)
     tagString = "device=" + normalisedName
@@ -72,10 +73,8 @@ def getHiveMetrics(sc):
 
     try:
         session = Hive(username=HIVE_USERNAME, password=HIVE_PASSWORD)
-        login = session.login()
+        session.login()
         session.startSession()
-
-        deviceList = session.deviceList
 
         for deviceType in session.deviceList:
             for device in session.deviceList[deviceType]:
@@ -83,7 +82,7 @@ def getHiveMetrics(sc):
 
                 # Hub
                 if (deviceType == 'binary_sensor') and (device['hiveName'] == 'Hub'):
-                    mqttSvc(client, device, {
+                    mqttSvc(client, "Hub", {
                         'presence': device['deviceData']['online'],
                         'deviceState': session.sensor.getSensor(device)['status']['state'],
                         'serverConnectionState': device['deviceData']['connection']
@@ -91,13 +90,13 @@ def getHiveMetrics(sc):
 
                 # Water Heating Thermostat
                 elif (deviceType == 'water_heater' and device['hiveType'] == 'hotwater'):
-                    mqttSvc(client, device, {
+                    mqttSvc(client, "Hot Water", {
                         'stateHotWaterRelay': session.hotwater.getState(device)
                     })
 
                 # Central Heating Thermostat
                 elif (deviceType == 'climate' and device['hiveType'] == 'heating'):
-                    mqttSvc(client, device, {
+                    mqttSvc(client, "Heating", {
                         'temperature': session.heating.getCurrentTemperature(device),
                         'targetHeatTemperature': session.heating.getTargetTemperature(device),
                         'stateHeatingRelay': session.heating.getState(device)
@@ -105,7 +104,7 @@ def getHiveMetrics(sc):
 
                 # Thermostat Device properties
                 elif (deviceType == 'sensor' and device['hiveType'] == 'battery'):
-                    mqttSvc(client, device, {
+                    mqttSvc(client, "Thermostat", {
                         'presence': device['deviceData']['online'],
                         'signal': device['deviceData']['online'],
                         'batteryLevel': device['deviceData']['battery']
@@ -113,7 +112,7 @@ def getHiveMetrics(sc):
 
                 # Lights
                 elif (deviceType == 'light'):
-                    mqttSvc(client, device, {
+                    mqttSvc(client, device["hiveName"], {
                         'presence': device['deviceData']['online'],
                         'state': session.light.getState(device) if device['deviceData']['online'] else 0,
                         'brightness': session.light.getBrightness(device) if device['deviceData']['online'] else 0
