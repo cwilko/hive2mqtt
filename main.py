@@ -103,7 +103,7 @@ def getHiveMetrics(sc):
                     })
 
                 # Thermostat Device properties
-                elif (deviceType == 'sensor' and device['hiveType'] == 'battery'):
+                elif (deviceType == 'sensor' and device['hiveType'] == 'Battery'):
                     mqttSvc(client, "Thermostat", {
                         'presence': device['deviceData']['online'],
                         'signal': device['deviceData']['online'],
